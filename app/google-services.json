@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "828334126928",
+    "project_id": "shu425-38ba5",
+    "storage_bucket": "shu425-38ba5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:828334126928:android:80af04201ea96e7ba0de55",
+        "android_client_info": {
+          "package_name": "com.example.cutivatingapp1_java"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCBFB0RCAKDaQrQZn8PZwEifuh2CbuOt8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
