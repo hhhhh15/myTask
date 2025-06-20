@@ -12,14 +12,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.cutivatingapp1_java.databinding.MainviewBinding;
 import com.example.cutivatingapp1_java.databinding.TaskfragmentBinding;
+import com.example.cutivatingapp1_java.fragment.ForumFragment;
+import com.example.cutivatingapp1_java.fragment.GrownFragment;
 import com.example.cutivatingapp1_java.fragment.TaskDetailFragment;
 import com.example.cutivatingapp1_java.fragment.TaskFragment;
 import com.example.cutivatingapp1_java.fragment.TaskSubmitFragment;
 import com.example.cutivatingapp1_java.fragment.TaskTimeFragment;
+import com.example.cutivatingapp1_java.interfaces.HasTopBar;
 
 
 public class MainAcitivity extends AppCompatActivity {
@@ -36,16 +38,16 @@ public class MainAcitivity extends AppCompatActivity {
         }
         initView();
         initSystemBar();
-        changeMainFragment();//默认R.id.contentContainer填充的是taskfragment
         PopMenu();//主侧边导航栏
 
         getSupportFragmentManager().addOnBackStackChangedListener(new FragmentManager.OnBackStackChangedListener() {
             @Override
             public void onBackStackChanged() {
-                handleUItoFragment(); // 每次返回栈变化，就去检查当前fragment，更新标题栏和底栏
+                cheakMainFragment(); // 每次返回栈变化，就去检查当前fragment，更新标题栏和底栏
             }
         });
-
+        switchToMainFragment(new TaskFragment());
+        setupBottomNavigation();
 
     }
     @Override
@@ -103,6 +105,25 @@ public class MainAcitivity extends AppCompatActivity {
         return result;
     }
 
+    private void setupBottomNavigation() {
+        binding.bottomNavigation.setOnItemSelectedListener(item -> {
+            Fragment fragment;
+            if(item.getItemId()==R.id.Task){
+                fragment = new TaskFragment();
+            } else if (item.getItemId()==R.id.Game) {
+                fragment = new GrownFragment();
+            } else if (item.getItemId()==R.id.Grown) {
+                fragment = new ForumFragment();
+            }else {
+                return false;
+            }
+
+            switchToMainFragment(fragment);
+            return true;
+        });
+    }
+
+
     //设置系统栏能根据不同的页面显示不同的页面
     private void setTopTitleView( FrameLayout container,View viewToAdd){
         if (container != null && viewToAdd != null) {
@@ -114,38 +135,30 @@ public class MainAcitivity extends AppCompatActivity {
             container.addView(viewToAdd);
         }
     }
-    //切换fragment，默认是taskfragment,并且同时修改顶部栏
-    private void changeMainFragment() {
-        taskfragment = new TaskFragment();
+    //算了还是考虑一下这个要不要吧
+    private void switchToMainFragment(Fragment fragment) {
+        if (fragment instanceof HasTopBar) {
+            HasTopBar barFragment = (HasTopBar) fragment;
 
-        taskfragment.setOnFragmentViewCreatedListener(new TaskFragment.OnFragmentViewCreatedListener() {
-            @Override
-            public void onViewCreated(TaskfragmentBinding Taskbinding) {
-                // 这里是 Fragment 完成加载之后，才会调用的！！！
-                setTopTitleView(MainAcitivity.this.binding.titleRightContainer, Taskbinding.rightIcon);
+            // 注册回调，等待视图准备好后再设置 TopBar
+            barFragment.setTopBarReadyListener((topBarView, title) -> {
+                setTopTitleView(binding.titleRightContainer, topBarView);
+                binding.titleBar.setText(title);
+            });
+        } else {
+            // 没有实现 HasTopBar，清除 TopBar
+            binding.titleRightContainer.removeAllViews();
+            binding.titleBar.setText("");
+        }
 
-
-            }
-        });
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.contentContainer, taskfragment);
-        transaction.addToBackStack(null);
-        transaction.commit();
-    }
-
-    private void meunToFragment(Fragment targetFragment){
-        // 1. 替换内容区
+        // 切换 fragment（不能提前访问 binding，否则可能崩溃）
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.contentContainer, targetFragment)
-                .addToBackStack(targetFragment.getClass().getSimpleName()) // 加到返回栈，按返回键可以回到主界面
+                .replace(R.id.contentContainer, fragment)
                 .commit();
     }
 
-
-    //子fragment返回到主fragment的时候显示对应的标题和底部导航栏
-    private void handleUItoFragment(){ //方法名应该改成查看mainactivy中的返回栈中的fragment
+    private void cheakMainFragment(){ //方法名应该改成查看mainactivy中的返回栈中的fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         int count = fragmentManager.getBackStackEntryCount();
         Log.d("返回栈数量", "当前数量: " + count);
@@ -171,6 +184,15 @@ public class MainAcitivity extends AppCompatActivity {
         }
 
     }
+
+    private void switchFragment(Fragment targetFragment){
+        // 1. 替换内容区
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.contentContainer, targetFragment)
+                .addToBackStack(targetFragment.getClass().getSimpleName()) // 加到返回栈，按返回键可以回到主界面
+                .commit();
+    }
     private void PopMenu() {
         binding.btnMenu.setOnClickListener(v -> { // 普通点击就打开/关闭
             Log.d("PopMenu啊啊啊啊啊啊啊", "Button clicked");
@@ -184,15 +206,15 @@ public class MainAcitivity extends AppCompatActivity {
         binding.navigationView.setNavigationItemSelectedListener(item -> { // 这里应该用binding
             int id = item.getItemId();
             if (id == R.id.menu_timer_page) {
-                meunToFragment(new TaskTimeFragment());
+                switchFragment(new TaskTimeFragment());
 
             } else if (id == R.id.menu_analysis_page) {
                 Log.d("进入数据分析页面", "Button clicked");
-                meunToFragment(new TaskDetailFragment());
+                switchFragment(new TaskDetailFragment());
 
             } else if (id == R.id.menu_submit_page) {
                 Log.d("进入提交页面", "Button clicked");
-                meunToFragment(new TaskSubmitFragment());
+                switchFragment(new TaskSubmitFragment());
 
             } else if (id == R.id.menu_completed_page) {
                 // 跳转任务完成页面
