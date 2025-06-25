@@ -1,4 +1,4 @@
-package com.example.cutivatingapp1_java.Model
+package com.example.cutivatingapp1_java.model
 
 import android.net.Uri
 import androidx.room.Entity

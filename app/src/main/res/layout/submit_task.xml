@@ -1,3 +1,10 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.example.cutivatingapp1_java.ViewModel.TaskSubmitViewModel" />
+    </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:padding="16dp"
@@ -206,23 +213,70 @@
 
 
     </LinearLayout>
-    <EditText
-        android:id="@+id/et_custom_subtasks"
+
+    <LinearLayout
+        android:id="@+id/subtask_layout"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="请输入子任务（每行一个）"
-        android:minHeight="96dp"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:background="@android:drawable/edit_text"
-        android:padding="8dp"
+        android:layout_marginTop="8dp">
 
-        />
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="添加子任务"/>
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="保存"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/subtask_item"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="5dp"
+            android:gravity="center_vertical">
+
+            <!-- EditText 占左侧，wrap_content 宽度或按需设定 -->
+            <EditText
+                android:id="@+id/et_custom_subtasks"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="请输入子任务（每行一个）"
+                android:gravity="top"
+                android:inputType="textMultiLine"
+                android:background="@android:drawable/edit_text"
+                android:padding="8dp" />
+
+            <!-- 删除按钮靠右 -->
+            <Button
+                android:id="@+id/btn_delete_subtask"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="删除"
+                android:layout_marginStart="8dp"/>
+        </LinearLayout>
+    </LinearLayout>
 
     <!-- 提交按钮 -->
     <Button
         android:id="@+id/btn_submit_task"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:text="提交任务" />
+        android:text="提交任务"
+        android:textSize="20dp"/>
 </LinearLayout>
+</layout>

@@ -1,4 +1,4 @@
-package com.example.cutivatingapp1_java.Model
+package com.example.cutivatingapp1_java.model
 
 import androidx.room.Entity
 import java.time.LocalDateTime

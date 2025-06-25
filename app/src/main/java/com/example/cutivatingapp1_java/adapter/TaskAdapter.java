@@ -15,7 +15,7 @@ import com.example.cutivatingapp1_java.R;
 import com.example.cutivatingapp1_java.databinding.TaskfragmentItemBinding;
 import com.example.cutivatingapp1_java.databinding.TaskfragmentItemDialogBinding;
 import com.example.cutivatingapp1_java.fragment.TaskTimeFragment;
-import com.example.cutivatingapp1_java.Model.Task;
+import com.example.cutivatingapp1_java.model.Task;
 
 import java.util.List;
 

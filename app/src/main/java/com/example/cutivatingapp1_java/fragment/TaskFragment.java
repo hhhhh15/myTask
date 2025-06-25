@@ -13,7 +13,7 @@ import com.example.cutivatingapp1_java.R;
 import com.example.cutivatingapp1_java.adapter.TaskAdapter;
 
 import com.example.cutivatingapp1_java.databinding.TaskfragmentBinding;
-import com.example.cutivatingapp1_java.Model.Task;
+import com.example.cutivatingapp1_java.model.Task;
 
 
 import java.util.ArrayList;

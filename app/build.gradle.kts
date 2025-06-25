@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")  //这个是什么东西
 
 }
 
@@ -47,19 +49,26 @@ android {
     buildFeatures {
         viewBinding = true
     }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-
-
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.9.0")
     implementation("com.kizitonwose.calendar:view:2.6.0")
 
+// Lifecycle ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+// Lifecycle LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
 
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment:2.6.0")
     implementation("androidx.navigation:navigation-ui:2.6.0")
+    implementation("androidx.core:core-ktx:1.16.0")
 
     //测试连接
     testImplementation("junit:junit:4.13.2")
