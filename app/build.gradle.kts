@@ -48,10 +48,12 @@ android {
     //打开viewBinding
     buildFeatures {
         viewBinding = true
+        dataBinding = true      // ✅ 启用 DataBinding（关键！）
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
 }
 
 dependencies {

@@ -18,9 +18,9 @@ class TaskSubmitFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = SubmitTaskBinding.inflate(inflater, R.layout.submit_task, container, false)
-        binding.viewModel  = taskSubmitViewModel
-        binding.lifecycleOwner = viewLifecycleOwner
+            binding = SubmitTaskBinding.inflate(inflater, container, false)
+            binding.lifecycleOwner = viewLifecycleOwner
+            binding.submitVm = taskSubmitViewModel
         return binding.root
     }
 

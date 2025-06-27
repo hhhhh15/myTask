@@ -1,8 +1,10 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+        <import type="com.example.cutivatingapp1_java.utils.Converter" />
+
         <variable
-            name="viewModel"
+            name="submitVm"
             type="com.example.cutivatingapp1_java.ViewModel.TaskSubmitViewModel" />
     </data>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -27,6 +29,7 @@
 
         <EditText
             android:id="@+id/et_task_name"
+            android:text="@={submitVm.taskName}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -50,6 +53,7 @@
 
         <EditText
             android:id="@+id/et_task_count"
+            android:text="@={Converter.intVmToStringView(submitVm.taskCount)}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -73,10 +77,11 @@
 
         <TextView
             android:id="@+id/tv_start_time"
+            android:text="@={Converter.localDateToString(submitVm.startTime)}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择日期"
+            android:hint="选择日期"
             android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
@@ -100,10 +105,11 @@
 
         <TextView
             android:id="@+id/tv_end_time"
+            android:text="@={Converter.localDateToString(submitVm.endTime)}"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="选择日期"
+            android:hint="选择日期"
             android:gravity="center_vertical"
             android:clickable="true"
             android:focusable="true"
